@@ -16,26 +16,12 @@ interface Lead {
 }
 
 export default function Home() {
-  const [leads, setLeads] = useState<Lead[]>([]);
-
-  useEffect(() => {
-    const fetchLeads = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/leads');
-        const data = await response.json();
-        setLeads(data);
-      } catch (error) {
-        console.error('Error fetching leads:', error);
-      }
-    };
-
-    fetchLeads();
-  }, []);
+  
   
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans p-6">
-      <div className="max-w-7xl mx-auto">
-        <Tables leads={leads} />
+    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans p-6 flex items-center justify-center">
+      <div className="max-w-7xl mx-auto text-7xl">
+        Welcome Home
       </div>
     </div>
   )

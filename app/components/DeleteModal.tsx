@@ -5,12 +5,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner"
 import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { useLeads } from "@/contexts/LeadsContext";
 
 interface Lead {
     id: string;
@@ -24,33 +24,40 @@ interface Lead {
 }
 
 const DeleteModal = ({ lead }: { lead: Lead }) => {
+  const { deleteLead } = useLeads();
   const [loading, setLoading] = useState(false);
-    const handleDelete = async () => {
-      setLoading(true);
-        console.log(`Deleting lead with id: ${lead.id}`);
-        const response = await fetch(`http://localhost:5000/leads/${lead.id}`, {
-          method: 'DELETE',
-        });
-        console.log(response);
-        if (response.status === 204) {
-          toast.success("Successfully deleted lead.Please wait while we refresh the page.");
-          // can be handled better by removing the lead from the state instead of refreshing the page but this is a quick solution for now
-          // will implement better state management in the future
-          await new Promise((resolve) => setTimeout(resolve, 2000));
-          window.location.reload();
-        } else {          
-          console.error('Failed to delete lead');
-          toast.error("Failed to delete lead.");
-        }
-        setLoading(false);
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/leads/${lead.id}`, {
+        method: 'DELETE',
+      });
+      if (response.status === 204) {
+        deleteLead(lead.id);
+        toast.success("Lead deleted successfully");
+        setOpen(false);
+      } else {
+        console.error('Failed to delete lead');
+        toast.error("Failed to delete lead.");
+      }
+    } catch (error) {
+      console.error('Error deleting lead:', error);
+      toast.error("Failed to delete lead.");
+    } finally {
+      setLoading(false);
     }
+  }
     return ( 
-        <Dialog>
-        <DialogTrigger>
-                <Button size="sm" variant="destructive">
-                  Delete
-                </Button>
-                </DialogTrigger>
+        <>
+        <button 
+          onClick={() => setOpen(true)}
+          className="px-3 py-1 text-sm font-medium rounded-md bg-red-500 text-white hover:bg-red-600 transition-colors"
+        >
+          Delete
+        </button>
+        <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
             <DialogHeader>
             <DialogTitle>Are you absolutely sure?</DialogTitle>
@@ -74,6 +81,7 @@ const DeleteModal = ({ lead }: { lead: Lead }) => {
             </DialogFooter>
         </DialogContent>
         </Dialog>
+        </>
      );
 }
  

@@ -1,7 +1,7 @@
 import CreateLead from "./CreateLead";
 import Search from "./SearchTab";
 
-const SideBar = ({setLeads}) => {
+const SideBar = () => {
    
     return ( 
         <div className="w-64 h-full bg-white dark:bg-zinc-950 flex flex-col items-center justify-between p-8 border-r border-gray-200 dark:border-zinc-800 shadow-sm">
@@ -16,7 +16,7 @@ const SideBar = ({setLeads}) => {
                 <div className="w-full flex flex-col gap-6">
                     <div className="space-y-2">
                         <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-1">Actions</label>
-                        <Search setLeads={setLeads} />
+                        <Search />
                         <CreateLead/>   
                     </div>
 

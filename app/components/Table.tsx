@@ -64,13 +64,17 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
     },[leads]);
 
     useEffect(()=>{
-        setFilteredLeads(leads.filter(lead => lead.status === filter || filter === 'All'));
-    },[filter])
+        if (leads && leads.length > 0) {
+            setFilteredLeads(leads.filter(lead => lead.status === filter || filter === 'All'));
+        } else {
+            setFilteredLeads([]);
+        }
+    },[filter, leads])
     
   return (
     <div className="overflow-x-auto bg-white dark:bg-black rounded-md shadow-lg w-full">
       <table className="min-w-full table-auto h-full">
-        <thead className="sticky top-0 z-10 bg-gradient-to-b from-gray-50 to-white dark:from-zinc-800 dark:to-zinc-900 border-b-2 border-gray-200 dark:border-zinc-700">
+        <thead className="sticky top-0 z-10  from-gray-50 to-white dark:from-zinc-800 dark:to-zinc-900 border-b-2 border-gray-200 dark:border-zinc-700">
           <tr className="text-sm text-left text-gray-700 dark:text-gray-300 font-semibold">
             <th className="px-4 py-4">Name</th>
             <th className="px-4 py-4">Mobile</th>
@@ -98,7 +102,7 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
         </thead>
         <tbody className="overflow-y-scroll ">
           {filteredLeads.length > 0 ? (
-            filteredLeads.map((lead) => (
+            filteredLeads?.map((lead) => (
               <tr key={lead.id} className="border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors duration-150">
                 <td className="px-4 py-4 align-top">
                   <div className="flex items-center gap-3">

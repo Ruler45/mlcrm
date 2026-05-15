@@ -2,9 +2,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// import { TooltipProvider } from "@/components/ui/tooltip"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { LeadsProvider } from "@/contexts/LeadsContext"
 import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = Geist({
@@ -33,13 +31,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full  antialiased`}
     >
       <body className="min-h-full flex flex-col dark:bg-black">
-        
+        <LeadsProvider>
           <main className="min-h-full w-full flex flex-col dark:bg-black">
             {children}
           </main>
-          <Toaster />
-    </body>
-      
+        </LeadsProvider>
+        <Toaster />
+      </body>
     </html>
   );
 }

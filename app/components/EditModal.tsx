@@ -5,7 +5,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -20,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useLeads } from "@/contexts/LeadsContext";
 
 interface Lead {
     id: string;
@@ -41,6 +41,7 @@ const TRANSITIONS = {
 };
 
 const EditModal = ({ lead }: { lead: Lead }) => {
+  const { updateLead } = useLeads();
   
   const [name, setName] = useState(lead.name);
   const [email, setEmail] = useState(lead.email);
@@ -48,6 +49,7 @@ const EditModal = ({ lead }: { lead: Lead }) => {
   const [status, setStatus] = useState(lead.status);
   const [changingLead, setChangingLead] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (status !== lead.status || name !== lead.name || email !== lead.email || phone !== (lead.phone || '')) {
@@ -66,7 +68,7 @@ const EditModal = ({ lead }: { lead: Lead }) => {
       status,
     };
     try {
-      const response = await fetch(`http://localhost:5000/leads/${lead.id}`, {  
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/leads/${lead.id}`, {  
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -76,11 +78,9 @@ const EditModal = ({ lead }: { lead: Lead }) => {
       if (!response.ok) {
         throw new Error('Failed to update lead');
       }
+      updateLead(lead.id, updatedLead);
       toast.success('Lead updated successfully');
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      window.location.reload();
-      // can be handled better by updating the lead in the state instead of refreshing the page but this is a quick solution for now
-      // will implement better state management in the future
+      setOpen(false);
     } catch (error) {
       console.error('Error updating lead:', error);
       toast.error('Failed to update lead');
@@ -91,12 +91,14 @@ const EditModal = ({ lead }: { lead: Lead }) => {
   };
 
     return ( 
-        <Dialog>
-        <DialogTrigger>
-                <Button size="sm">
-                  Edit
-                </Button>
-                </DialogTrigger>
+        <>
+        <button 
+          onClick={() => setOpen(true)}
+          className="px-3 py-1 text-sm font-medium rounded-md border border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-zinc-800 transition-colors"
+        >
+          Edit
+        </button>
+        <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
             <label htmlFor="name">Name</label>
             <Input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -126,6 +128,7 @@ const EditModal = ({ lead }: { lead: Lead }) => {
             </DialogFooter>
         </DialogContent>
         </Dialog>
+        </>
      );
 }
  

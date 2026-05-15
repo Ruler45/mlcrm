@@ -5,7 +5,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogClose
 } from "@/components/ui/dialog";
 import {
@@ -17,10 +16,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useLeads } from "@/contexts/LeadsContext";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 
 
@@ -30,6 +30,7 @@ const SOURCES = ['website', 'referral', 'campaign', 'cold-outreach', 'event'];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const CreateLead = () => {
+  const { addLead } = useLeads();
   
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -38,6 +39,7 @@ const CreateLead = () => {
   const [source,setSource] = useState<string>("");
   const [valid,setValid] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(()=>{
     if(name !=="" && EMAIL_RE.test(email)){
@@ -68,11 +70,15 @@ const CreateLead = () => {
       if (!response.ok) {
         throw new Error('Failed to save lead');
       }
-      toast.success('Lead created successfully. Please wait while we reload');
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      window.location.reload();
-      // can be handled better by updating the lead in the state instead of refreshing the page but this is a quick solution for now
-      // will implement better state management in the future
+      const newLead = await response.json();
+      addLead(newLead);
+      toast.success('Lead created successfully');
+      setName("");
+      setEmail("");
+      setPhone("");
+      setStatus("");
+      setSource("");
+      setOpen(false);
     } catch (error) {
       console.error('Error create lead:', error);
       toast.error('Failed to create lead');
@@ -83,12 +89,14 @@ const CreateLead = () => {
   };
 
     return ( 
-        <Dialog>
-        <DialogTrigger>
-                <Button size="lg" className="bg-green-500 text-xl h-[75%] p-4">
-                  Add Lead
-                </Button>
-                </DialogTrigger>
+        <>
+        <button 
+          onClick={() => setOpen(true)}
+          className="bg-green-500 text-white text-xl h-12 p-4 rounded-md font-medium hover:bg-green-600 transition-colors"
+        >
+          Add Lead
+        </button>
+        <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
             <label htmlFor="name">Name</label>
             <Input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required/>
@@ -133,6 +141,7 @@ const CreateLead = () => {
             </DialogFooter>
         </DialogContent>
         </Dialog>
+        </>
      );
 }
  
