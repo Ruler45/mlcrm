@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Mail, Phone, Calendar, Globe, Tag } from "lucide-react";
 import EditModal from "@/app/components/EditModal";
+import { useLeads } from "@/contexts/LeadsContext";
 
 interface Lead {
     id: string;
@@ -28,23 +29,17 @@ const statusClasses: Record<string, string> = {
 const LeadPage = () => {
     const { id } = useParams();
     const router = useRouter();
+    const { leads, loading: contextLoading } = useLeads();
     const [lead, setLead] = useState<Lead | null>(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchLead = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/leads/${id}`);
-                const data = await response.json();
-                setLead(data);
-            } catch (error) {
-                console.error('Error fetching lead:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchLead();
-    }, [id]);
+        if (leads && leads.length > 0) {
+            const foundLead = leads.find(l => l.id === id);
+            setLead(foundLead || null);
+        }
+    }, [leads, id]);
+
+    const loading = contextLoading || !lead;
 
     if (loading) {
         return (
