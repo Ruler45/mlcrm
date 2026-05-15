@@ -1,3 +1,6 @@
+"use client"
+
+import Header from "@/app/components/HeaderTab"
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +20,7 @@ export function AppSidebar() {
     <SidebarMenu>
       <SidebarMenuItem>
         <User2 className="mr-2" />
-        Profile
+        <Header/>
       </SidebarMenuItem>
     </SidebarMenu>
   </SidebarHeader>

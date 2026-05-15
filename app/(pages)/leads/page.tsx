@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Tables from "../../components/Table";
+import Header from "../../components/HeaderTab";
 
 
 interface Lead {
@@ -35,8 +36,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="h-screen w-full bg-zinc-50 dark:bg-black font-sans p-6 flex gap-4">
+      <Header setLeads={setLeads}  />
+      <div className="w-[80%]  flex  gap-4 relative">
         {leads && <Tables leads={leads} />}
         {!leads && <p>Loading...</p>}
       </div>

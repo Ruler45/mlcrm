@@ -58,7 +58,7 @@ interface status{
 const Tables = ({ leads }: { leads: Lead[] }) => {
     const [filteredLeads, setFilteredLeads] = useState<Lead[]>(leads);
     const [filter,setFilter]= useState<keyof status>('All')
-    console.log(filteredLeads);
+    // console.log(filteredLeads);
     useEffect(()=>{
         setFilteredLeads(leads);
     },[leads]);
@@ -68,9 +68,9 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
     },[filter])
     
   return (
-    <div className="overflow-x-auto bg-white dark:bg-black rounded-md shadow-sm">
-      <table className="min-w-full table-auto">
-        <thead className="bg-white dark:bg-zinc-900">
+    <div className="overflow-x-auto bg-white dark:bg-black rounded-md shadow-sm w-full h-[90%]">
+      <table className="min-w-full table-auto h-full">
+        <thead className="bg-white dark:bg-zinc-900 ">
           <tr className="text-sm text-left text-gray-500 border-b">
             <th className="px-4 py-3">Name</th>
             <th className="px-4 py-3">Mobile</th>
@@ -96,7 +96,7 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="overflow-y-scroll h-[80%]">
           {filteredLeads.length > 0 ? (
             filteredLeads.map((lead) => (
               <tr key={lead.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800">

@@ -63,13 +63,13 @@ const DeleteModal = ({ lead }: { lead: Lead }) => {
                 <Button disabled={loading} variant="destructive" size="sm" onClick={handleDelete}>
 
                   {loading ? (
-    <>
-      <Spinner /> 
-      <span className="ml-2">Processing...</span>
-    </>
-  ) : (
-    "Confirm"
-  )}
+                    <>
+                      <Spinner /> 
+                        <span className="ml-2">Processing...</span>
+                      </>
+                      ) : (
+                        "Confirm"
+                  )}
                 </Button>
             </DialogFooter>
         </DialogContent>
