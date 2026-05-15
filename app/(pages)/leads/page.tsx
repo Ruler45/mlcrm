@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import Tables from "./components/Table";
+import Tables from "../../components/Table";
 
 
 interface Lead {
@@ -23,6 +23,7 @@ export default function Home() {
       try {
         const response = await fetch('http://localhost:5000/leads');
         const data = await response.json();
+        // console.log(data)
         setLeads(data);
       } catch (error) {
         console.error('Error fetching leads:', error);
@@ -31,7 +32,7 @@ export default function Home() {
 
     fetchLeads();
   }, []);
-  
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans p-6">
       <div className="max-w-7xl mx-auto">
