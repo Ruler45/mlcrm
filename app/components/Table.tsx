@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
+import Link from "next/link";
 
 interface Lead {
     id: string;
@@ -96,12 +97,13 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredLeads.map((lead) => (
-            <tr key={lead.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800">
-              <td className="px-4 py-3 align-top">
-                <div className="flex items-center">
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-semibold mr-3 ${colorFor(lead.name)}`}>
-                    {initials(lead.name)}
+          {filteredLeads.length > 0 ? (
+            filteredLeads.map((lead) => (
+              <tr key={lead.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800">
+                <td className="px-4 py-3 align-top">
+                  <div className="flex items-center">
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-semibold mr-3 ${colorFor(lead.name)}`}>
+  `                    {initials(lead.name)}
                   </div>
                   <div className="min-w-0">
                     <div className="text-sm font-medium truncate">{lead.name}</div>
@@ -123,15 +125,23 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
                 </span>
               </td>
               <td className="flex flex-wrap gap-2 items-center px-4 py-3 align-top">
-                <Button variant="outline" size="sm">
-                  View
-                </Button>
-                <EditModal />
+                <Link href={`/leads/${lead.id}`}>
+                  <Button variant="outline" size="sm">
+                    View
+                  </Button>
+                </Link>
+                <EditModal lead={lead} />
                 <DeleteModal lead={lead} />
 
               </td>
             </tr>
-          ))}
+          ))) : (
+            <tr>
+              <td className="px-4 py-3" colSpan={7}>
+                No leads found.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

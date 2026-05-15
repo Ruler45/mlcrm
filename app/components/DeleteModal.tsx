@@ -34,6 +34,8 @@ const DeleteModal = ({ lead }: { lead: Lead }) => {
         console.log(response);
         if (response.status === 204) {
           toast.success("Successfully deleted lead.Please wait while we refresh the page.");
+          // can be handled better by removing the lead from the state instead of refreshing the page but this is a quick solution for now
+          // will implement better state management in the future
           await new Promise((resolve) => setTimeout(resolve, 2000));
           window.location.reload();
         } else {          

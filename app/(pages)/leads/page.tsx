@@ -16,7 +16,7 @@ interface Lead {
 }
 
 export default function Home() {
-  const [leads, setLeads] = useState<Lead[]>([]);
+  const [leads, setLeads] = useState<Lead[] | undefined>(undefined);
 
   useEffect(() => {
     const fetchLeads = async () => {
@@ -27,6 +27,7 @@ export default function Home() {
         setLeads(data);
       } catch (error) {
         console.error('Error fetching leads:', error);
+
       }
     };
 
@@ -36,7 +37,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans p-6">
       <div className="max-w-7xl mx-auto">
-        <Tables leads={leads} />
+        {leads && <Tables leads={leads} />}
+        {!leads && <p>Loading...</p>}
       </div>
     </div>
   )
