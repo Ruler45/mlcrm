@@ -92,7 +92,7 @@ const CreateLead = () => {
         <>
         <button 
           onClick={() => setOpen(true)}
-          className="bg-green-500 text-white text-xl h-12 p-4 rounded-md font-medium hover:bg-green-600 transition-colors"
+          className="bg-green-500 text-white text-xl  p-4 rounded-md font-medium hover:bg-green-600 transition-colors"
         >
           Add Lead
         </button>
