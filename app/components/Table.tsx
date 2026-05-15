@@ -68,19 +68,19 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
     },[filter])
     
   return (
-    <div className="overflow-x-auto bg-white dark:bg-black rounded-md shadow-sm w-full h-[90%]">
+    <div className="overflow-x-auto bg-white dark:bg-black rounded-md shadow-lg w-full">
       <table className="min-w-full table-auto h-full">
-        <thead className="bg-white dark:bg-zinc-900 ">
-          <tr className="text-sm text-left text-gray-500 border-b">
-            <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3">Mobile</th>
-            <th className="px-4 py-3">Last Updated</th>
-            <th className="px-4 py-3">Email</th>
-            <th className="px-4 py-3">Source</th>
-            <th className="px-4 py-3">Status
-                <span className="px-3">
+        <thead className="sticky top-0 z-10 bg-gradient-to-b from-gray-50 to-white dark:from-zinc-800 dark:to-zinc-900 border-b-2 border-gray-200 dark:border-zinc-700">
+          <tr className="text-sm text-left text-gray-700 dark:text-gray-300 font-semibold">
+            <th className="px-4 py-4">Name</th>
+            <th className="px-4 py-4">Mobile</th>
+            <th className="px-4 py-4">Last Updated</th>
+            <th className="px-4 py-4">Email</th>
+            <th className="px-4 py-4">Source</th>
+            <th className="px-4 py-4">Status
+                <span className="px-3 font-normal">
                    (
-                    <select name="status" id="status" className="bg-transparent border-none focus:ring-0" onChange={(e)=>{
+                    <select name="status" id="status" className="bg-transparent border-none focus:ring-0 text-gray-600 dark:text-gray-400" onChange={(e)=>{
                         setFilter(e.target.value as keyof status);
                     }}>
                       <option value="All">All</option>
@@ -93,45 +93,45 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
                    )
                 </span>
             </th>
-            <th>Actions</th>
+            <th className="px-4 py-4">Actions</th>
           </tr>
         </thead>
-        <tbody className="overflow-y-scroll h-[80%]">
+        <tbody className="overflow-y-scroll ">
           {filteredLeads.length > 0 ? (
             filteredLeads.map((lead) => (
-              <tr key={lead.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800">
-                <td className="px-4 py-3 align-top">
-                  <div className="flex items-center">
-                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white font-semibold mr-3 ${colorFor(lead.name)}`}>
-  `                    {initials(lead.name)}
+              <tr key={lead.id} className="border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors duration-150">
+                <td className="px-4 py-4 align-top">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0 shadow-sm ${colorFor(lead.name)}`}>
+                      {initials(lead.name)}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{lead.name}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{lead.email}</div>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <div className="text-sm font-medium truncate">{lead.name}</div>
-                    <div className="text-xs text-gray-400 truncate">{lead.email}</div>
-                  </div>
-                </div>
-              </td>
-              <td className="px-4 py-3 align-top">
-                <span className="bg-gray-100 text-gray-700 rounded-full px-3 py-1 text-xs">{lead.phone}</span>
-              </td>
-              <td className="px-4 py-3 align-top text-sm text-gray-600">{`${new Date(lead.updated_at).toLocaleDateString("ddmmyyyy")}`}</td>
-              <td className="px-4 py-3 align-top text-sm text-gray-600">{lead.email}</td>
-              <td className="px-4 py-3 align-top">
-                <span className="bg-pink-100 text-pink-800 rounded-full px-3 py-1 text-sm">{lead.source}</span>
-              </td>
-              <td className="px-4 py-3 align-top">
-                <span className={`rounded-full px-3 py-1 text-sm ${statusClasses[lead.status] || 'bg-gray-100 text-gray-700'}`}>
-                  {lead.status}
-                </span>
-              </td>
-              <td className="flex flex-wrap gap-2 items-center px-4 py-3 align-top">
-                <Link href={`/leads/${lead.id}`}>
-                  <Button variant="outline" size="sm">
-                    View
-                  </Button>
-                </Link>
-                <EditModal lead={lead} />
-                <DeleteModal lead={lead} />
+                </td>
+                <td className="px-4 py-4 align-top">
+                  <span className="bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-full px-3 py-1 text-xs font-medium">{lead.phone || '—'}</span>
+                </td>
+                <td className="px-4 py-4 align-top text-sm text-gray-600 dark:text-gray-400">{`${new Date(lead.updated_at).toLocaleDateString("en-US")}`}</td>
+                <td className="px-4 py-4 align-top text-sm text-gray-600 dark:text-gray-400 truncate">{lead.email}</td>
+                <td className="px-4 py-4 align-top">
+                  <span className="bg-pink-100 dark:bg-pink-900/30 text-pink-800 dark:text-pink-300 rounded-full px-3 py-1 text-xs font-medium">{lead.source}</span>
+                </td>
+                <td className="px-4 py-4 align-top">
+                  <span className={`rounded-full px-3 py-1 text-xs font-medium ${statusClasses[lead.status] || 'bg-gray-100 text-gray-700'}`}>
+                    {lead.status}
+                  </span>
+                </td>
+                <td className="flex flex-wrap gap-2 items-center px-4 py-4 align-top">
+                  <Link href={`/leads/${lead.id}`}>
+                    <Button variant="outline" size="sm" className="hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                      View
+                    </Button>
+                  </Link>
+                  <EditModal lead={lead} />
+                  <DeleteModal lead={lead} />
 
               </td>
             </tr>
