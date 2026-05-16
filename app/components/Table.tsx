@@ -74,7 +74,7 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
   return (
     <div className="overflow-x-auto bg-white dark:bg-black rounded-md shadow-lg w-full">
       <table className="min-w-full table-auto h-full">
-        <thead className="sticky top-0 z-10  from-gray-50 to-white dark:from-zinc-800 dark:to-zinc-900 border-b-2 border-gray-200 dark:border-zinc-700">
+        <thead className="sticky top-0 z-10  from-gray-50 to-white dark:from-zinc-800 dark:to-zinc-900 border-b-2 border-gray-200 dark:border-zinc-700 backdrop-blur-sm">
           <tr className="text-sm text-left text-gray-700 dark:text-gray-300 font-semibold">
             <th className="px-4 py-4">Name</th>
             <th className="px-4 py-4">Mobile</th>
