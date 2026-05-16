@@ -18,7 +18,7 @@ app.use(express.json({ limit: '5mb' }));
 // Set MOCK_LATENCY_MS=300 to add 300ms delay to every request.
 // Set MOCK_FAILURE_RATE=0.1 to randomly fail 10% of requests with 500.
 const LATENCY_MS = parseInt(process.env.MOCK_LATENCY_MS || '0', 10);
-const FAILURE_RATE = parseFloat(process.env.MOCK_FAILURE_RATE || '0.5');
+const FAILURE_RATE = parseFloat(process.env.MOCK_FAILURE_RATE || '0.0');
 
 app.use(async (req, res, next) => {
   if (LATENCY_MS) await new Promise(r => setTimeout(r, LATENCY_MS));

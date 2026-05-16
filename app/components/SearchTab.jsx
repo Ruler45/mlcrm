@@ -6,7 +6,7 @@ import { useLeads } from "@/contexts/LeadsContext";
 
 const Search = () => {
     const [searchPara, setSearchPara] = useState("");
-    const { fetchLeads } = useLeads();
+    const { setLeads } = useLeads();
 
     const handleSearch = async (e) => {
         if (e.key !== "Enter") return;
@@ -14,7 +14,7 @@ const Search = () => {
         try {
             const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/leads?q=${searchPara}`).then(res => res.json());
             console.log("Search result", data);
-            await fetchLeads();
+            setLeads(data);
         } catch (error) {
             console.error("Error fetching search results:", error);
             toast.error("Failed to fetch search results. Please try again.");

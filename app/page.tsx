@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react";
-import Tables from "./components/Table";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 
 interface Lead {
@@ -19,10 +19,15 @@ export default function Home() {
   
   
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans p-6 flex items-center justify-center">
-      <div className="max-w-7xl mx-auto text-7xl">
-        Welcome Home
+    <div className="min-h-screen bg-zinc-50 dark:bg-black font-sans p-6 flex flex-col gap-6 items-center justify-center">
+      <div className="max-w-7xl mx-auto text-5xl">
+        Welcome Home to MLCRM
       </div>
+      <Link href="/leads">
+        <Button>
+          Checkout the Leads
+        </Button>
+      </Link>
     </div>
   )
 }

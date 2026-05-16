@@ -73,8 +73,8 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
     
   return (
     <div className="overflow-x-auto bg-white dark:bg-black rounded-md shadow-lg w-full">
-      <table className="min-w-full table-auto h-full">
-        <thead className="sticky top-0 z-10  from-gray-50 to-white dark:from-zinc-800 dark:to-zinc-900 border-b-2 border-gray-200 dark:border-zinc-700 backdrop-blur-sm">
+      <table className="min-w-full  h-fit">
+        <thead className="sticky top-0 z-10  bg-gray-100 dark:from-zinc-800 dark:to-zinc-900 border-b-2 border-gray-200 dark:border-zinc-700 backdrop-blur-sm">
           <tr className="text-sm text-left text-gray-700 dark:text-gray-300 font-semibold">
             <th className="px-4 py-4">Name</th>
             <th className="px-4 py-4">Mobile</th>
@@ -103,7 +103,7 @@ const Tables = ({ leads }: { leads: Lead[] }) => {
         <tbody className="overflow-y-scroll ">
           {filteredLeads.length > 0 ? (
             filteredLeads?.map((lead) => (
-              <tr key={lead.id} className="border-b border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors duration-150">
+              <tr key={lead.id} className="border-b h-fit border-gray-100 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors duration-150">
                 <td className="px-4 py-4 align-top">
                   <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0 shadow-sm ${colorFor(lead.name)}`}>

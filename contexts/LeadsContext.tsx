@@ -20,6 +20,7 @@ interface LeadsContextType {
   addLead: (lead: Lead) => void;
   updateLead: (id: string, lead: Partial<Lead>) => void;
   deleteLead: (id: string) => void;
+  setLeads: React.Dispatch<React.SetStateAction<Lead[]>>;
 }
 
 const LeadsContext = createContext<LeadsContextType | undefined>(undefined);
@@ -58,7 +59,7 @@ export function LeadsProvider({ children }: { children: React.ReactNode }) {
   }, [fetchLeads]);
 
   return (
-    <LeadsContext.Provider value={{ leads, loading, fetchLeads, addLead, updateLead, deleteLead }}>
+    <LeadsContext.Provider value={{ leads, loading, fetchLeads, addLead, updateLead, deleteLead, setLeads }}>
       {children}
     </LeadsContext.Provider>
   );
